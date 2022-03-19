@@ -97,3 +97,10 @@ distribution_destroy_auto:
 
 .PHONY: update_distribution
 update_distribution: distribution_init distribution_import distribution_plan distribution_apply
+
+
+
+
+
+.PHONY: destroy_all
+destroy_all: destroy_auto distribution_destroy_auto
