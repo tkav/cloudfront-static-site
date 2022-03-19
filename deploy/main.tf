@@ -69,16 +69,53 @@ POLICY
 resource "aws_cloudfront_origin_access_identity" "website_origin_identity" {
 }
 
+resource "aws_acm_certificate" "wildcard_website" {
+  provider                  = aws.us-east-1
+  domain_name               = var.website_domain_main
+  subject_alternative_names = ["*.${var.website_domain_main}"]
+  validation_method         = "EMAIL"
+}
+
+# Triggers the ACM wildcard certificate validation event
+resource "aws_acm_certificate_validation" "wildcard_cert" {
+  provider        = aws.us-east-1
+  certificate_arn = aws_acm_certificate.wildcard_website.arn
+  #validation_record_fqdns = [var.website_domain_main]
+}
+
+# Get the ARN of the issued certificate
+data "aws_acm_certificate" "wildcard_website" {
+  provider = aws.us-east-1
+
+  depends_on = [
+    aws_acm_certificate.wildcard_website,
+    aws_acm_certificate_validation.wildcard_cert,
+  ]
+
+  domain      = var.website_domain_main
+  statuses    = ["ISSUED"]
+  most_recent = true
+}
+
+## CloudFront
+# Creates the CloudFront distribution to serve the static website
 resource "aws_cloudfront_distribution" "website_cdn_root" {
   enabled     = true
   price_class = "PriceClass_All"
+  # Select the correct PriceClass depending on who the CDN is supposed to serve (https://docs.aws.amazon.com/AmazonCloudFront/ladev/DeveloperGuide/PriceClass.html)
+
+  aliases = [var.website_domain_main]
 
   origin {
     origin_id   = "origin-bucket-${aws_s3_bucket.website_root.id}"
-    domain_name = aws_s3_bucket.website_root.bucket_regional_domain_name
+    domain_name = aws_s3_bucket.website_root.website_endpoint
 
-    s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.website_origin_identity.cloudfront_access_identity_path
+    custom_origin_config {
+      origin_protocol_policy = "http-only"
+      # The protocol policy that you want CloudFront to use when fetching objects from the origin server (a.k.a S3 in our situation). HTTP Only is the default setting when the origin is an Amazon S3 static website hosting endpoint, because Amazon S3 doesn’t support HTTPS connections for static website hosting endpoints.
+      http_port            = 80
+      https_port           = 443
+      origin_ssl_protocols = ["TLSv1.2", "TLSv1.1", "TLSv1"]
     }
   }
 
@@ -97,7 +134,7 @@ resource "aws_cloudfront_distribution" "website_cdn_root" {
     default_ttl      = "300"
     max_ttl          = "1200"
 
-    viewer_protocol_policy = "redirect-to-https"
+    viewer_protocol_policy = "redirect-to-https" # Redirects any HTTP request to HTTPS
     compress               = true
 
     forwarded_values {
@@ -116,7 +153,8 @@ resource "aws_cloudfront_distribution" "website_cdn_root" {
   }
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn = data.aws_acm_certificate.wildcard_website.arn
+    ssl_support_method  = "sni-only"
   }
 
   custom_error_response {
@@ -130,12 +168,4 @@ resource "aws_cloudfront_distribution" "website_cdn_root" {
 
 output "cloudfront_domain" {
   value = aws_cloudfront_distribution.website_cdn_root.domain_name
-}
-
-output "cloudfront_id" {
-  value = aws_cloudfront_distribution.website_cdn_root.id
-}
-
-output "origin_identity_id" {
-  value = aws_cloudfront_origin_access_identity.website_origin_identity.id
 }
