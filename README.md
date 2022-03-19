@@ -2,10 +2,6 @@
 
 Deploy a static site to AWS using CloudFront and S3 without using Route53.
 
-Deployment is separated into 2 stages as your domain DNS records need to be updated before the Cloudfront distribution can be updated with your domain name. 
-
-This is because the SSL cerfiticate cannot be validated until your there is a domain DNS record pointing to the Cloudfront distribution. 
-
 # Usage
 
 ## Requirements
