@@ -10,6 +10,10 @@ This uses the terraform module, [tkav/terraform-aws-static-website](https://gith
 
 # Usage
 
+This is a template repo! Click [`Use this template`](https://github.com/tkav/cloudfront-static-site/generate) before continuing on.
+
+[![Use this template](docs/images/use-this-template.png)](https://github.com/tkav/cloudfront-static-site/generate)
+
 ## Requirements
 - Terraform (>v1.0.0)
 
