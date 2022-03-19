@@ -51,6 +51,16 @@ make upload_site
 ```
 This will also be run when contents are pushed to the repo with changes in the `src` folder.
 
+If using the workflows, ensure you have updated the repository secrets with the following variables:
+```
+AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY
+TF_VAR_REGION
+TF_VAR_SITENAME
+TF_VAR_TF_STATE_BUCKET
+TF_VAR_WEBSITE_DOMAIN_MAIN
+```
+
 ## Destroying the Site
 
 To destroy EVERYTHING to do with this deployment:
