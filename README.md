@@ -14,6 +14,8 @@ This is a template repo! Click [`Use this template`](https://github.com/tkav/clo
 
 [![Use this template](https://i.imgur.com/LYtQFxY.png)](https://github.com/tkav/cloudfront-static-site/generate)
 
+Then [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) and open this repo.
+
 ## Requirements
 - Terraform (>v1.0.0)
 
