@@ -1,6 +1,12 @@
 # Cloudfront Static Site
 
-Deploy a static site to AWS using CloudFront and S3 without using Route53.
+Quickly deploy a static site to AWS using CloudFront and S3 without using Route53.
+
+Deploy a static site using S3 and CloudFront with a custom domain name with an external provider (to AWS). 
+
+To deploy a static site quickly to CloudFront without the custom domain, please use [tkav/deploy-static-site](https://github.com/tkav/deploy-static-site).
+
+This uses the terraform module, [tkav/terraform-aws-static-website](https://github.com/tkav/terraform-aws-static-website).
 
 # Usage
 
