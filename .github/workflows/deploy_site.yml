@@ -23,5 +23,8 @@ jobs:
                   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                   aws-region: ap-southeast-2
 
+
             - name: Deploy to S3
               run: make upload_site
+              env:
+                TF_VAR_website_domain_main: ${{ secrets.TF_VAR_website_domain_main }}
