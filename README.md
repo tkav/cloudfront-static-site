@@ -6,7 +6,9 @@ Deployment is separated into 2 stages as your domain DNS records need to be upda
 
 This is because the SSL cerfiticate cannot be validated until your there is a domain DNS record pointing to the Cloudfront distribution. 
 
-# Requirements
+# Usage
+
+## Requirements
 - Terraform (>v1.0.0)
 - jq (`brew install jq`)
 
@@ -66,6 +68,7 @@ If changes are made in the `src` folder, run the following to upload the changes
 ```
 make upload_site
 ```
+This will also be run when contents are pushed to the repo with changes in the `src` folder.
 
 ## Destroying the Site
 
