@@ -12,7 +12,7 @@ This uses the terraform module, [tkav/terraform-aws-static-website](https://gith
 
 This is a template repo! Click [`Use this template`](https://github.com/tkav/cloudfront-static-site/generate) before continuing on.
 
-[![Use this template](docs/images/use-this-template.png)](https://github.com/tkav/cloudfront-static-site/generate)
+[![Use this template](https://i.imgur.com/LYtQFxY.png)](https://github.com/tkav/cloudfront-static-site/generate)
 
 ## Requirements
 - Terraform (>v1.0.0)
@@ -44,7 +44,7 @@ cloudfront_domain = "dlimer79nfhej.cloudfront.net"
 
 4. Add an `@` CNAME record to your domain using the `cloudfront_domain` above and add a `www` URL Redirect record pointing to your domain:
 
-![DNS Records](docs/images/dns-records.png)
+![DNS Records](https://i.imgur.com/ZmT3w2l.png)
 
 Once complete, your site will soon be available using your domain.
 
